@@ -16,18 +16,27 @@ namespace MyChatClient.ViewModel
         private static List<string> messages = new List<string>(); // Список сообщений
         private Server server = new Server(); // Сервер
 
-        /// <summary>
-        /// Возвращает список сообщений
-        /// </summary>
-        //public List<string> Messages
-        //{
-        //    get
-        //    {
-        //        return messages;
-        //    }
-        //}
+        // Сообщение от клиента
+        private string clientMessage = "";
 
+        /// <summary>
+        /// Список сообщений. Реализован через ObservableCollection<string>, потому что требуется 
+        /// реализация INotifyPropertyChanged внутри колекции.
+        /// </summary>
         public ObservableCollection<string> Messages { get; } = new ObservableCollection<string>();
+
+        public string ClientMessage
+        {
+            get
+            {
+                return clientMessage;
+            }
+            set
+            {
+                clientMessage = value;
+                OnPropertyChanged("ClientMessage");
+            }
+        }
 
         // Команда на подключение к серверу
         public ConnectToServerCommand ConnectCommand { get; set; }
@@ -71,9 +80,10 @@ namespace MyChatClient.ViewModel
         /// Отправляет сообщение на сервер
         /// </summary>
         /// <param name="message">Текст сообщения</param>
-        public void SendMessageToServer(string message)
+        public void SendMessageToServer()
         {
-            server.SendMessage(message);
+            server.SendMessage(ClientMessage);
+            ClientMessage = "";
         }
 
         /// <summary>
@@ -103,7 +113,7 @@ namespace MyChatClient.ViewModel
                 else
                 {
                     Messages.Add(message);
-                    //OnPropertyChanged("Messages");
+
                 }
             } while (server.IsConnectedToServer);
         }

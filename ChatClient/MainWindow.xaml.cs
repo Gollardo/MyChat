@@ -168,7 +168,6 @@ namespace ChatClient
         {
             if(e.Key == Key.Enter)
             {
-                SendMessage(messageTextBox.Text);
                 messageTextBox.Text = "";
             }
         }

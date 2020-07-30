@@ -51,8 +51,12 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox x:Name="messageTextBox" Padding="2" Grid.Column="0" FontSize="20" KeyDown="MessageTextBox_KeyDown"/>
-                <Button x:Name="buttonSend" Content="Отправить" Margin="5, 0, 0, 0" Grid.Column="1" Command="{Binding SendCommand}" CommandParameter="{Binding Text, ElementName=messageTextBox}"/>
+                <TextBox x:Name="messageTextBox" Padding="2" Grid.Column="0" FontSize="20" Text="{Binding ClientMessage, Mode=TwoWay}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding SendCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+                <Button x:Name="buttonSend" Content="Отправить" Margin="5, 0, 0, 0" Grid.Column="1" Command="{Binding SendCommand}"/>
             </Grid>
 
         </Grid>

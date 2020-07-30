@@ -25,8 +25,7 @@ namespace MyChatClient.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            //this.ViewModel.SendMessageToServer(parameter as String);
-            this.ViewModel.ListenServer();
+            this.ViewModel.SendMessageToServer();
         }
     }
 }

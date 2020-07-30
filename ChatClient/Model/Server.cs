@@ -101,6 +101,7 @@ namespace MyChatClient
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
                     IsConnectedToServer = false;
+                    socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     return true;
                 }
                 catch (Exception ex)
@@ -121,11 +122,17 @@ namespace MyChatClient
         /// <returns>Сообщение от сервера</returns>
         public string ListenServer()
         {
-            byte[] bufferIn = new byte[1024];
-            socket.Receive(bufferIn);
-            string m = Encoding.UTF8.GetString(bufferIn).Trim('\0');
-            return m;
-
+            do
+            {
+                if (socket.Available > 0)
+                {
+                    byte[] bufferIn = new byte[1024];
+                    socket.Receive(bufferIn);
+                    string m = Encoding.UTF8.GetString(bufferIn).Trim('\0');
+                    return m;
+                }
+                return "";
+            } while (socket.Connected);
         }
     }
 }

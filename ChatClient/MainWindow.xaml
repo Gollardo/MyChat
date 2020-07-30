@@ -49,9 +49,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox x:Name="messageTextBox" Padding="2" Grid.Column="0" FontSize="20" Text="{Binding ClientMessage, Mode=TwoWay}">
+                <TextBox x:Name="messageTextBox" Padding="2" Grid.Column="0" FontSize="20" Text="{Binding ClientMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" Command="{Binding SendCommand}"/>
+                        <KeyBinding Key="Enter" Command="{Binding Command, ElementName=buttonSend}"/>
                     </TextBox.InputBindings>
                 </TextBox>
                 <Button x:Name="buttonSend" Content="Отправить" Margin="5, 0, 0, 0" Grid.Column="1" Command="{Binding SendCommand}"/>

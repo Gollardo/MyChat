@@ -65,6 +65,7 @@ namespace ChatServer
                 string m = Encoding.UTF8.GetString(bufferIn).Trim('\0');
                 if( m == "-1")
                 {
+                    Console.WriteLine("Отключение: " + socket.RemoteEndPoint.ToString());
                     socketsList.Remove(socket);
                     namesOfClients.Remove(nameOfClient);
                     socket.Shutdown(SocketShutdown.Both);

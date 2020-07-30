@@ -168,7 +168,8 @@ namespace ChatClient
         {
             if(e.Key == Key.Enter)
             {
-                messageTextBox.Text = "";
+                messageTextBox.AppendText("");
+                buttonSend.Command.Execute("123");
             }
         }
 

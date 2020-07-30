@@ -16,6 +16,7 @@ namespace MyChatClient.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;  //Нужно для уведомления об изменении параметра
         private static List<string> messages = new List<string>(); // Список сообщений
         private Server server = new Server(); // Сервер
+        Thread t; // Поток для прослушивания сервера
 
         // Сообщение от клиента
         private string clientMessage = "";
@@ -78,7 +79,7 @@ namespace MyChatClient.ViewModel
         public void ConnectToServer(string userName)
         {
             server.ConnectServer(userName);
-            Thread t = new Thread(new ThreadStart(ListenServer));
+            t = new Thread(new ThreadStart(ListenServer));
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
         }
@@ -98,6 +99,8 @@ namespace MyChatClient.ViewModel
         /// </summary>
         public void DisconectFromServer()
         {
+            server.IsConnectedToServer = false;
+            t.Abort();
             server.DisconnectServer();
         }
 
@@ -110,12 +113,13 @@ namespace MyChatClient.ViewModel
 
             do
             {
-
+               if(server.IsConnectedToServer)
                 message = server.ListenServer();
 
                 if (message.StartsWith("["))
                 {
-                    message = message.Trim(new char[] { '[', ']', '"', ' ' });
+                    App.Current.Dispatcher.Invoke((Action)delegate { Clients.Clear();});
+                    message = message.Trim(new char[] { '[', ']', '"', '\'' });
                     List<string> list = message.Split(',').ToList<string>();
                     foreach (string s in list)
                     {
@@ -123,10 +127,9 @@ namespace MyChatClient.ViewModel
                     }
                     
                 }
-                else
+                else if (!message.Equals(""))
                 {
                     App.Current.Dispatcher.Invoke((Action)delegate { Messages.Add(message); });
-
                 }
             } while (server.IsConnectedToServer);
         }

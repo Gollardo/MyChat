@@ -121,10 +121,10 @@ namespace MyChatClient
         /// <returns>Сообщение от сервера</returns>
         public string ListenServer()
         {
-                //byte[] bufferIn = new byte[1024];
-                //socket.Receive(bufferIn);
-                //string m = Encoding.UTF8.GetString(bufferIn).Trim('\0');
-                return "hi";
+            byte[] bufferIn = new byte[1024];
+            socket.Receive(bufferIn);
+            string m = Encoding.UTF8.GetString(bufferIn).Trim('\0');
+            return m;
 
         }
     }

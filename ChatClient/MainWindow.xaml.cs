@@ -122,20 +122,20 @@ namespace ChatClient
 
         void updateClientsList(byte[] bufferIn)
         {
-            string m = Encoding.UTF8.GetString(bufferIn).Trim('\0');
-            m = m.Trim(new char[] { '[', ']', '"', ' '});
-            List<string> list = m.Split(',').ToList<string>();
+            //string m = Encoding.UTF8.GetString(bufferIn).Trim('\0');
+            //m = m.Trim(new char[] { '[', ']', '"', ' '});
+            //List<string> list = m.Split(',').ToList<string>();
 
 
-            Dispatcher.BeginInvoke(new ThreadStart(delegate {
-                clientsStack.Children.Clear();
-                foreach (string s in list)
-                {
-                    TextBlock textBlock = new TextBlock();
-                    textBlock.Text = s.Trim(new char[] { '[', ']', '"', '\''}); ;
-                    clientsStack.Children.Add(textBlock);
-                }
-            }));
+            //Dispatcher.BeginInvoke(new ThreadStart(delegate {
+            //    clientsStack.Children.Clear();
+            //    foreach (string s in list)
+            //    {
+            //        TextBlock textBlock = new TextBlock();
+            //        textBlock.Text = s.Trim(new char[] { '[', ']', '"', '\''}); ;
+            //        clientsStack.Children.Add(textBlock);
+            //    }
+            //}));
         }
 
     

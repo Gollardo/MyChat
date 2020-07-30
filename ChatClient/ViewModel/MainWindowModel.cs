@@ -1,4 +1,5 @@
-﻿using MyChatClient.ViewModel.Commands;
+﻿using ChatClient;
+using MyChatClient.ViewModel.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +19,12 @@ namespace MyChatClient.ViewModel
 
         // Сообщение от клиента
         private string clientMessage = "";
+
+        /// <summary>
+        /// Список клиентов. Реализован через ObservableCollection<string>, потому что требуется 
+        /// реализация INotifyPropertyChanged внутри колекции.
+        /// </summary>
+        public ObservableCollection<string> Clients { get; } = new ObservableCollection<string>();
 
         /// <summary>
         /// Список сообщений. Реализован через ObservableCollection<string>, потому что требуется 
@@ -108,11 +115,17 @@ namespace MyChatClient.ViewModel
 
                 if (message.StartsWith("["))
                 {
-                    // TODO: сделать обновление списка пользователей
+                    message = message.Trim(new char[] { '[', ']', '"', ' ' });
+                    List<string> list = message.Split(',').ToList<string>();
+                    foreach (string s in list)
+                    {
+                        App.Current.Dispatcher.Invoke((Action)delegate { Clients.Add(s); });
+                    }
+                    
                 }
                 else
                 {
-                    Messages.Add(message);
+                    App.Current.Dispatcher.Invoke((Action)delegate { Messages.Add(message); });
 
                 }
             } while (server.IsConnectedToServer);

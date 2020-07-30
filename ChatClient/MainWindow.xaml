@@ -27,9 +27,7 @@
             <!--Row 0-->
             
             <ScrollViewer Grid.Row="0" Grid.Column="0">
-                <StackPanel Name="clientsStack">
-                  
-                </StackPanel>
+                <ItemsControl Name="clientsItemControl" ItemsSource="{Binding Clients, Mode=OneWay}"/>
             </ScrollViewer>
 
             <ScrollViewer  Grid.Row="0" Grid.Column="1" Margin="10, 0, 0, 0" Grid.ColumnSpan="2">
